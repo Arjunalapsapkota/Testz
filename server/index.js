@@ -60,7 +60,7 @@ app.use("/api/mySiftz", mySiftzRoutes);
 
 // create home route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/public/index.html"));
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 // console.log("this is process.env here", process.env.MONGO_DB_URL);
