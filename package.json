@@ -29,22 +29,18 @@
     "server": "nodemon --watch server server/index.js",
     "server-prod": "node server/index.js"
   },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  },
   "dependencies": {
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "express-http-proxy": "^1.5.1",
-    "http-proxy-middleware": "^0.19.1",
     "mongoose": "^5.4.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.8",
     "passport": "^0.4.0",
-    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^1.0.0",
-    "passport-instagram": "^1.0.0",
     "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "concurrently": "^3.5.0"
   }
 }
