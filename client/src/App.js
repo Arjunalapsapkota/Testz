@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//,
+//Link,
+//Redirect
 import Home from "./components/Home";
 import MySiftz from "./components/MySiftz";
 import Search from "./components/Search";
 import SignUp from "./components/SignUp";
-import LogIn from "./components/LogIn";
+import Login from "./components/Login";
 // import { RedirectUser } from "./components/Login/RedirectUser";
 
 class App extends Component {
@@ -35,17 +32,17 @@ class App extends Component {
             // component={this.state.isloggedin ? MySiftz : Login}
             component={MySiftz}
           />
-          {/* <Route
+          <Route
             path="/search"
             // component={this.state.isloggedin ? Search : Login}
             component={Search}
-          /> */}
+          />
           <Route exact path="/signup" component={SignUp} />
 
           <Route
             path="/login"
             // component={this.state.isloggedin ? Login : Login}
-            component={LogIn}
+            component={Login}
           />
           <Route exact path="*" component={Home} />
         </Switch>

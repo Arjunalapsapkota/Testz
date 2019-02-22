@@ -1,83 +1,108 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import HeaderLogin from "../Global/HeaderLogin";
-
-class LogIn extends React.Component {
+import axios from "axios";
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: "",
+      password: "",
       isLoggedIn: false
     };
   }
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    console.log(this.state);
+    this.setState({
+      [name]: value
+    });
+  };
+  handlesubmit = async event => {
+    event.preventDefault();
+    let res = await fetch("/auth/signin", {
+      method: "POST",
+      body: JSON.stringify(this.state)
+    });
 
+    let data = await res.json();
+    console.log(data);
+    // saving the received token to the local storage
+    if (data != 404) localStorage.setItem("$tkn", data.token);
+    else console.log("please provide valid credentials");
+  };
   render() {
     return (
       <Fragment>
         <HeaderLogin />
         <div className="login-form">
-          <section className="signUp-with">
-            <a className="facebook-button" href="/api/auth/facebook">
-              LOGIN WITH Facebook
-            </a>
-            <a className="instagram-button" href="/api/auth/instagram">
-              LOGIN WITH Instagram
-            </a>
-            <a className="gmail-button" href="/api/auth/google">
-              LOGIN WITH GMAIL
-            </a>
-          </section>
-          <strong className="line-thru">or</strong>
-
           <form>
             <h2>
-              <strong>Login with your email address</strong>
+              <strong>Login</strong>
             </h2>
 
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail4"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="form-group col-md-6">
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPassword4"
-                  placeholder="Confirm Email"
-                />
-              </div>
-            </div>
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
+                id="email"
+                name="email"
+                value={this.state.email}
+                placeholder="email"
+                onChange={this.handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                type="text"
+                class="form-control"
                 id="inputAddress"
+                name="password"
+                value={this.state.password}
                 placeholder="Password"
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-row signUpButtonWrap">
               <div className="form-check">
                 <input
                   type="checkbox"
-                  className="form-check-input"
+                  class="form-check-input"
                   id="exampleCheck1"
                 />
-                <label className="form-check-label" htmlFor="exampleCheck1">
+                <label className="form-check-label" for="exampleCheck1">
                   Remember me
                 </label>
               </div>
 
-              <button type="submit" className="btn btn-primary login-btn">
+              <button
+                type="submit"
+                onClick={this.handlesubmit}
+                className="btn btn-primary login-btn"
+              >
                 Login
               </button>
             </div>
+            <small>Login with </small>
+            <a href="/api/tiktok">
+              <i className="fab fa-facebook-square mr-3 fa-lg" />
+            </a>
+            <a href="#">
+              <i className="fab fa-instagram mr-3 fa-lg" />
+            </a>
+            <button
+              onClick={async e => {
+                e.preventDefault();
+                console.log("i am clicked");
+                axios.get("/auth/google");
+              }}
+            >
+              <i className="fab fa-google mr-3 fa-lg" />
+            </button>
           </form>
-
-          <h2 className="leadToSignUp">Don't have an account?</h2>
+          <hr />
+          <h3 className="leadToSignUp">Don't have an account?</h3>
           <Link to="/auth/signUp">
             <button className="btn btn-primary signUp-btn">SIGN UP</button>
           </Link>
@@ -87,4 +112,4 @@ class LogIn extends React.Component {
   }
 }
 
-export default LogIn;
+export default Login;
