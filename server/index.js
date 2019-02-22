@@ -44,50 +44,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors());
 
-//cors
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
 // set up routes
 app.use("/api/auth", authRoutes);
 app.use("/api/mySiftz", mySiftzRoutes);
 
 // create home route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/public/index.html"));
 });
 
-// console.log("this is process.env here", process.env.MONGO_DB_URL);
-//connect mongoDB
-mongodb.connect(process.env.MONGO_DB_URL, () => {
-  console.log("connected mongoDB");
-});
-
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-
-// db.once('open', function callback() {
-
-// }
-
-// app.get("*", (req, res) => {
-//   res.render("static" + req.url, function(err, html) {
-//     if (!err) {
-//       return res.send(html);
-//     }
-//     // Not super elegant the `indexOf` but useful
-//     if (err.message.indexOf("Failed to lookup view") !== -1) {
-//       return res.render("root/error");
-//     }
-//     throw err;
-//   });
-// });
+try {
+  mongodb.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true }, () => {
+    console.log("Successfully connected mongoDB (Cloud).. 8)");
+  });
+} catch (error) {
+  console.log(error);
+}
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
