@@ -59,6 +59,8 @@ a:hover {
 }
 
 .facebook-button {
+  text-align: center;
+  line-height: 55px;
   font-weight: 800;
   color: white;
   background-color: rgb(63, 80, 169);
@@ -68,6 +70,8 @@ a:hover {
 }
 
 .instagram-button {
+  text-align: center;
+  line-height: 55px;
   font-weight: 800;
   color: white;
   /* background-color: rgb(63, 80, 169); */
@@ -82,7 +86,8 @@ a:hover {
 }
 
 .gmail-button {
-  color: white;
+  text-align: center;
+  line-height: 55px;
   font-weight: 800;
   background-color: #c74343;
   border-radius: 2rem;
@@ -296,7 +301,7 @@ li p {
 .body-background1 {
   background-color: rgb(91, 226, 121);
   width: 100%;
-  margin-top: -28px;
+  /* margin-top: -28px; */
 }
 
 .first-text-wrapper2 h2 {

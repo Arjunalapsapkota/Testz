@@ -1,40 +1,10 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-//list of strategies
-const requireAuth = passport.authenticate("jwt", { session: false }); // Jwt strategy
-const requireSignin = passport.authenticate("local", { session: false }); // Local Strategy
-const googleauth = passport.authenticate("google", { scope: ["Email"] }); // google Strategy
-
-const passportSetup = require("../config/passport-setup");
-const Authentication = require("../controllers/authentication");
-
-// ######### Test Routes
-router.post("/test", requireAuth, (req, res) => {
-  console.log(
-    "This is a Test Route for POST request and Test Route is  working"
-  );
-});
-
-router.get("/test", (req, res) => {
-  console.log(
-    "This is a Test Route for GET request and Test Route is  working"
-  );
-  res.send("newLogin");
-});
-//######## Test Routes End
-
-router.get("/google", googleauth); // Google auth
-
-//auth callback from google
-router.get(
-  "/google/redirect",
-  passport.authenticate("google"),
-  Authentication.signin
-);
-router.post("/signup", Authentication.signup);
-
-router.post("/signin", requireSignin, Authentication.signin);
+// auth login
+// router.get("/login", (req, res) => {
+//   res.render("login", { user: req.user });
+// });
 
 router.get("/login", (req, res) => {
   res.render("newLogin", { user: req.user });
@@ -49,5 +19,62 @@ router.get("/logout", (req, res) => {
   // handle with passport
   res.send("logging out");
 });
+
+// auth with google+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile"] //add whatever you want from user
+  })
+);
+router.get("/instagram", passport.authenticate("instagram"));
+router.get("/facebook", passport.authenticate("facebook"));
+//auth callback from google
+router.get(
+  "/google/redirect",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (err, req, res, next) => {
+    if (err.name === "TokenError") {
+      res.redirect("http://localhost:3000/login"); // for local
+    } else {
+      // Handle other errors here
+    }
+  },
+  (req, res) => {
+    res.redirect("http://localhost:3000/mySiftz/");
+    //res.send(req.user);
+  }
+);
+router.get(
+  "/instagram/redirect",
+  passport.authenticate("instagram", { failureRedirect: "/login" }),
+  (err, req, res, next) => {
+    if (err.name === "TokenError") {
+      res.redirect("http://localhost:3000/login"); // for local
+    } else {
+      // Handle other errors here
+    }
+  },
+  (req, res) => {
+    res.redirect("http://localhost:3000/mySiftz/");
+    //res.send(req.user);
+  }
+);
+
+router.get(
+  "/facebook/redirect",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  (err, req, res, next) => {
+    if (err.name === "TokenError") {
+      res.redirect("http://localhost:3000/login"); // for local
+    } else {
+      // Handle other errors here
+    }
+  },
+  (req, res) => {
+    res.redirect("http://localhost:3000/mySiftz/");
+    //res.send(req.user);
+  }
+);
 
 module.exports = router;
