@@ -18,7 +18,7 @@
   },
   "scripts": {
     "setup": "yarn install && cd client && yarn install",
-    "build": "node internals/scripts/build.js",
+    "build": "cd client && npm run build",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node server/index.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
